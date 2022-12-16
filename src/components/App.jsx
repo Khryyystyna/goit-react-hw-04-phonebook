@@ -32,18 +32,7 @@ export const App = () => {
       setFilter(evt.target.value);
     };
 
-   const getFilterContact = () => {
-    const normalizedFilter = filter.toLowerCase();
-     return contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter));
-    }
-
-    const onDelete = contactId => {
-    setContacts(prevState =>
-      prevState.filter(contact => contact.id !== contactId)
-    );
-  }
-  
+ 
 useEffect(() => {
     const contacts = localStorage.getItem('contacts');
     const parseContacts = JSON.parse(contacts);
@@ -60,6 +49,23 @@ useEffect(() => {
     }
   }, [contacts]);
   
+    // const getFilterContact = () => {
+  //   const normalizedFilter = filter.toLowerCase();
+  //     return contacts.filter(contact =>
+  //       contact.name.toLowerCase().includes(normalizedFilter));
+  // }
+
+ const getFilterContact = () => {
+    contacts.filter(({name}) =>
+      name.toLowerCase().includes(filter.toLowerCase()));
+  }
+
+    const onDelete = contactId => {
+    setContacts(prevState =>
+      prevState.filter(contact => contact.id !== contactId)
+    );
+  }
+  
 
       return (
         <>
@@ -68,7 +74,7 @@ useEffect(() => {
           <h2>Contacts</h2>
           <Filter value={filter} onChange={handleChangeFilter} />
           <ContactsList
-            contacts={getFilterContact}
+            contacts={getFilterContact()}
             onDelete={onDelete} />
         </>
       )
